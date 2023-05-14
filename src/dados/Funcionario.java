@@ -1,6 +1,7 @@
 package dados;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Funcionario {
 
@@ -60,5 +61,20 @@ public class Funcionario {
         this.departamento = departamento;
     }
 
+    // Funcionários são iguais se tiverem o mesmo id
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        Funcionario that = (Funcionario) o;
+        return this.id == that.id;
+    }
 
+    // Recomendado pela documentação do Java
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
