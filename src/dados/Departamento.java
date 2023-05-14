@@ -1,6 +1,7 @@
 package dados;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Departamento {
     private int id;
@@ -14,7 +15,7 @@ public class Departamento {
         this.gerente = gerente;
         this.funcionarios = new ArrayList<Funcionario>();
     }
-    
+
     public int getId() {
         return id;
     }
@@ -35,16 +36,30 @@ public class Departamento {
         this.gerente = gerente;
     }
 
-    public void adicionarFuncionario(Funcionario funcionario){
+    public void adicionarFuncionario(Funcionario funcionario) {
         funcionarios.add(funcionario);
     }
 
-    public void removerFuncionario(Funcionario funcionario){
+    public void removerFuncionario(Funcionario funcionario) {
         funcionarios.remove(funcionario);
     }
 
-    public ArrayList<Funcionario> listarFuncionarios(){
+    public ArrayList<Funcionario> listarFuncionarios() {
         return funcionarios;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || this.getClass() != o.getClass())
+            return false;
+        Departamento that = (Departamento) o;
+        return this.id == that.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
