@@ -69,7 +69,7 @@ public class Funcionario {
         if (o == null || this.getClass() != o.getClass())
             return false;
         Funcionario that = (Funcionario) o;
-        return this.id == that.id;
+        return this.id == that.getId();
     }
 
     // Recomendado pela documentação do Java
