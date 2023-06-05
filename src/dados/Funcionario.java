@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 public class Funcionario {
-
     private int id;
     private LocalDate dataAdmissao;
     private String nome;
@@ -12,7 +11,16 @@ public class Funcionario {
     private double salario;
     private Departamento departamento;
 
-    public Funcionario(int id, String nome, Cargo cargo, double salario, Departamento departamento) {
+    public Funcionario(int id, String nome, Cargo cargo, double salario, Departamento departamento)
+            throws IllegalArgumentException {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome do funcionário não pode ser vazio");
+        }
+
+        if (salario <= 0) {
+            throw new IllegalArgumentException("Salário deve ser maior que 0");
+        }
+
         this.id = id;
         this.nome = nome;
         this.cargo = cargo;
@@ -33,7 +41,11 @@ public class Funcionario {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String nome) throws IllegalArgumentException {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome do funcionário não pode ser vazio");
+        }
+
         this.nome = nome;
     }
 
@@ -49,7 +61,10 @@ public class Funcionario {
         return salario;
     }
 
-    public void setSalario(double salario) {
+    public void setSalario(double salario) throws IllegalArgumentException {
+        if (salario <= 0) {
+            throw new IllegalArgumentException("Salário deve ser maior que 0");
+        }
         this.salario = salario;
     }
 

@@ -9,7 +9,12 @@ public class Departamento {
     private Gerente gerente;
     private ArrayList<Funcionario> funcionarios;
 
-    public Departamento(int id, String nome, Gerente gerente) {
+    public Departamento(int id, String nome, Gerente gerente)
+            throws IllegalArgumentException {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome do departamento não pode ser vazio");
+        }
+
         this.id = id;
         this.nome = nome;
         this.gerente = gerente;
@@ -24,7 +29,11 @@ public class Departamento {
         return nome;
     }
 
-    public void setNome(String nome) {
+    public void setNome(String nome) throws IllegalArgumentException {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome do departamento não pode ser vazio");
+        }
+
         this.nome = nome;
     }
 
