@@ -5,9 +5,6 @@ public class Teste {
         testaFuncionarioRepo();
         System.out.println("Testes de operações CRUD com repositório de Funcionario concluído com sucesso.");
 
-        testaGerenteRepo();
-        System.out.println("Testes de operações CRUD com repositório de Gerente concluído com sucesso.");
-
         testaCargoRepo();
         System.out.println("Testes de operações CRUD com repositório de Cargo concluído com sucesso.");
 
@@ -18,14 +15,6 @@ public class Teste {
 
     private static void testaFuncionarioRepo() {
         FuncionarioRepositorioArrayListTeste teste = new FuncionarioRepositorioArrayListTeste();
-        teste.testeSalvar();
-        teste.testeListar();
-        teste.testeBuscar();
-        teste.testeRemover();
-    }
-
-    private static void testaGerenteRepo() {
-        GerenteRepositorioArrayListTeste teste = new GerenteRepositorioArrayListTeste();
         teste.testeSalvar();
         teste.testeListar();
         teste.testeBuscar();
