@@ -3,7 +3,8 @@ package console;
 import java.util.List;
 import java.util.Scanner;
 
-import dados.Funcionario;
+import dados.Cargo;
+import excecoes.CargoNaoExisteException;
 import negocio.Empresa;
 
 public class TelaCargo {
@@ -31,11 +32,15 @@ public class TelaCargo {
                 case "1":
                     break;
                 case "2":
+                    buscaCargo();
                     break;
                 case "3":
-                    imprimeFuncionarios();
+                    printCargos();
                     break;
                 case "4":
+                    break;
+                case "5":
+                    removeCargo();
                     break;
                 case "s":
                 case "S":
@@ -46,11 +51,57 @@ public class TelaCargo {
         }
     }
 
-    private void imprimeFuncionarios() {
-        List<Funcionario> funcionarios = fachada.listarFuncionarios();
+    private void removeCargo() {
+        System.out.println("ID do cargo a ser removido: ");
+        String escolhaString = scanner.nextLine();
 
-        for (Funcionario f : funcionarios) {
-            System.out.println(f.getNome());
+        int escolha;
+
+        try {
+            escolha = Integer.parseInt(escolhaString);
+        } catch (NumberFormatException ex) {
+            System.out.println("O ID deve ser um número inteiro. Tente novamente.");
+            return;
+        }
+
+        try {
+            fachada.removerCargo(escolha);
+        } catch (CargoNaoExisteException ex) {
+            System.out.println("Operação falhou.");
+            System.out.println(ex.getMessage());
+            return;
+        }
+    }
+
+    private void buscaCargo() {
+        System.out.println("Buscar por ID: ");
+        String escolhaString = scanner.nextLine();
+        int escolha;
+
+        try {
+            escolha = Integer.parseInt(escolhaString);
+        } catch (NumberFormatException ex) {
+            System.out.println("O ID deve ser um número inteiro. Tente novamente.");
+            return;
+        }
+
+        Cargo cargo;
+
+        try {
+            cargo = fachada.buscarCargo(escolha);
+        } catch (CargoNaoExisteException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
+
+        System.out.println(cargo.getNome() + " " + cargo.getDescricao());
+    }
+
+    private void printCargos() {
+        List<Cargo> cargos = fachada.listarCargos();
+
+        for (Cargo c : cargos) {
+            System.out.println(c.getNome() + " " + c.getDescricao());
         }
     }
 }
