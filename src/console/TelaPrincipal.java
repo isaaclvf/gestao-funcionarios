@@ -5,14 +5,12 @@ import java.util.Scanner;
 import negocio.Empresa;
 
 public class TelaPrincipal {
-    private Empresa fachada;
     private Scanner scanner;
     private TelaFuncionario funcionario;
     private TelaCargo cargo;
     private TelaDepartamento departamento;
 
     public TelaPrincipal(Empresa fachada) {
-        this.fachada = fachada;
         this.scanner = new Scanner(System.in);
 
         this.funcionario = new TelaFuncionario(fachada);
