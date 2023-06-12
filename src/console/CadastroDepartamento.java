@@ -45,11 +45,11 @@ public class CadastroDepartamento {
             return;
         }
 
-        if (!nome.strip().isEmpty()) {
-            this.nome = nome.strip();
+        if (!nome.trim().isEmpty()) {
+            this.nome = nome.trim();
         }
 
-        if (!gerenteString.strip().isEmpty()) {
+        if (!gerenteString.trim().isEmpty()) {
             try {
                 this.gerente = Integer.parseInt(gerenteString);
             } catch (NumberFormatException e) {

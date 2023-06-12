@@ -57,11 +57,11 @@ public class CadastroFuncionario {
             return;
         }
 
-        if (!nome.strip().isEmpty()) {
-            this.nome = nome.strip();
+        if (!nome.trim().isEmpty()) {
+            this.nome = nome.trim();
         }
 
-        if (!cargo.strip().isEmpty()) {
+        if (!cargo.trim().isEmpty()) {
             try {
                 this.cargo = Integer.parseInt(cargo);
             } catch (NumberFormatException e) {
@@ -71,7 +71,7 @@ public class CadastroFuncionario {
             }
         }
 
-        if (!salarioString.strip().isEmpty()) {
+        if (!salarioString.trim().isEmpty()) {
             try {
                 this.salario = Double.parseDouble(salarioString);
             } catch (NumberFormatException e) {
@@ -80,7 +80,7 @@ public class CadastroFuncionario {
             }
         }
 
-        if (!departamento.strip().isEmpty()) {
+        if (!departamento.trim().isEmpty()) {
             try {
                 this.departamento = Integer.parseInt(departamento);
             } catch (NumberFormatException e) {

@@ -51,15 +51,15 @@ public class CadastroCargo {
             return;
         }
 
-        if (!nome.strip().isEmpty()) {
-            this.nome = nome.strip();
+        if (!nome.trim().isEmpty()) {
+            this.nome = nome.trim();
         }
 
-        if (!descricao.strip().isEmpty()) {
-            this.descricao = descricao.strip();
+        if (!descricao.trim().isEmpty()) {
+            this.descricao = descricao.trim();
         }
 
-        if (!salarioString.strip().isEmpty()) {
+        if (!salarioString.trim().isEmpty()) {
             try {
                 this.salario = Double.parseDouble(salarioString);
             } catch (NumberFormatException e) {
