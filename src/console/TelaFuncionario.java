@@ -21,7 +21,6 @@ public class TelaFuncionario {
         this.fachada = fachada;
         this.scanner = new Scanner(System.in);
         this.cadastro = new CadastroFuncionario();
-
     }
 
     public void iniciar() {

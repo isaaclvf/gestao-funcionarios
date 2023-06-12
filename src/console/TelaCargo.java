@@ -4,16 +4,19 @@ import java.util.List;
 import java.util.Scanner;
 
 import dados.Cargo;
+import excecoes.CargoJaExisteException;
 import excecoes.CargoNaoExisteException;
 import negocio.Empresa;
 
 public class TelaCargo {
     private Empresa fachada;
     private Scanner scanner;
+    private CadastroCargo cadastro;
 
     public TelaCargo(Empresa fachada) {
         this.fachada = fachada;
         this.scanner = new Scanner(System.in);
+        this.cadastro = new CadastroCargo();
     }
 
     public void iniciar() {
@@ -30,6 +33,7 @@ public class TelaCargo {
 
             switch (escolha) {
                 case "1":
+                    adicionaCargo();
                     break;
                 case "2":
                     buscaCargo();
@@ -38,6 +42,7 @@ public class TelaCargo {
                     printCargos();
                     break;
                 case "4":
+                    editaCargo();
                     break;
                 case "5":
                     removeCargo();
@@ -48,6 +53,43 @@ public class TelaCargo {
                 default:
                     break;
             }
+        }
+    }
+
+    private void editaCargo() {
+        cadastro.iniciar();
+
+        if (!cadastro.isFinalizado()) {
+            return;
+        }
+
+        try {
+            fachada.editarCargo(cadastro.getId(), cadastro.getNome(), cadastro.getDescricao(), cadastro.getSalario());
+        } catch (CargoNaoExisteException e) {
+            System.out.println(e.getMessage());
+            return;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+    }
+
+    private void adicionaCargo() {
+        cadastro.iniciar();
+
+        if (!cadastro.isFinalizado()) {
+            return;
+        }
+
+        try {
+            fachada.adicionarCargo(cadastro.getId(), cadastro.getNome(), cadastro.getDescricao(),
+                    cadastro.getSalario());
+        } catch (CargoJaExisteException e) {
+            System.out.println(e.getMessage());
+            return;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
         }
     }
 
