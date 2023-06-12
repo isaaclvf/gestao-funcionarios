@@ -4,16 +4,21 @@ import java.util.List;
 import java.util.Scanner;
 
 import dados.Departamento;
+import dados.Gerente;
+import excecoes.DepartamentoJaExisteException;
 import excecoes.DepartamentoNaoExisteException;
+import excecoes.FuncionarioNaoExisteException;
 import negocio.Empresa;
 
 public class TelaDepartamento {
     private Empresa fachada;
     private Scanner scanner;
+    private CadastroDepartamento cadastro;
 
     public TelaDepartamento(Empresa fachada) {
         this.fachada = fachada;
         this.scanner = new Scanner(System.in);
+        this.cadastro = new CadastroDepartamento();
     }
 
     public void iniciar() {
@@ -30,6 +35,7 @@ public class TelaDepartamento {
 
             switch (escolha) {
                 case "1":
+                    adicionaDepartamento();
                     break;
                 case "2":
                     buscaDepartamento();
@@ -38,6 +44,7 @@ public class TelaDepartamento {
                     printDepartamentos();
                     break;
                 case "4":
+                    editaDepartamento();
                     break;
                 case "5":
                     removeDepartamento();
@@ -48,6 +55,72 @@ public class TelaDepartamento {
                 default:
                     break;
             }
+        }
+    }
+
+    private void editaDepartamento() {
+        cadastro.iniciar();
+
+        if (!cadastro.isFinalizado()) {
+            return;
+        }
+
+        Gerente gerente = null;
+
+        if (cadastro.getGerente() != 0) {
+            try {
+                gerente = (Gerente) fachada.buscarFuncionario(cadastro.getGerente());
+            } catch (FuncionarioNaoExisteException e) {
+                System.out.println(e.getMessage());
+                return;
+            } catch (ClassCastException e) {
+                System.out.println("Esse funcionário não é um gerente");
+                return;
+            }
+        }
+
+        try {
+            fachada.editarDepartamento(cadastro.getId(), cadastro.getNome(), gerente);
+        } catch (DepartamentoNaoExisteException e) {
+            System.out.println(e.getMessage());
+            return;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+    }
+
+    private void adicionaDepartamento() {
+        cadastro.iniciar();
+
+        if (!cadastro.isFinalizado()) {
+            return;
+        }
+
+        Gerente gerente = null;
+
+        if (cadastro.getGerente() != 0) {
+            try {
+                gerente = (Gerente) fachada.buscarFuncionario(cadastro.getGerente());
+            } catch (FuncionarioNaoExisteException e) {
+                System.out.println(e.getMessage());
+                return;
+            } catch (ClassCastException e) {
+                System.out.println("Esse funcionário não é um gerente");
+                return;
+            } catch (IllegalAccessError e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
+        try {
+            fachada.adicionarDepartamento(cadastro.getId(), cadastro.getNome(), gerente);
+        } catch (DepartamentoJaExisteException e) {
+            System.out.println(e.getMessage());
+            Departamento departamento = e.getDepartamento();
+            System.out.println(departamento.getId() + " " + departamento.getNome());
+            return;
         }
     }
 
