@@ -3,17 +3,25 @@ package console;
 import java.util.List;
 import java.util.Scanner;
 
+import dados.Cargo;
+import dados.Departamento;
 import dados.Funcionario;
+import excecoes.CargoNaoExisteException;
+import excecoes.DepartamentoNaoExisteException;
+import excecoes.FuncionarioJaExisteException;
 import excecoes.FuncionarioNaoExisteException;
 import negocio.Empresa;
 
 public class TelaFuncionario {
     private Empresa fachada;
     private Scanner scanner;
+    private CadastroFuncionario cadastro;
 
     public TelaFuncionario(Empresa fachada) {
         this.fachada = fachada;
         this.scanner = new Scanner(System.in);
+        this.cadastro = new CadastroFuncionario();
+
     }
 
     public void iniciar() {
@@ -30,6 +38,7 @@ public class TelaFuncionario {
 
             switch (escolha) {
                 case "1":
+                    adicionaFuncionario();
                     break;
                 case "2":
                     buscaFuncionario();
@@ -38,6 +47,7 @@ public class TelaFuncionario {
                     printFuncionarios();
                     break;
                 case "4":
+                    editaFuncionario();
                     break;
                 case "5":
                     removeFuncionario();
@@ -48,6 +58,85 @@ public class TelaFuncionario {
                 default:
                     break;
             }
+        }
+    }
+
+    private void editaFuncionario() {
+        cadastro.iniciar();
+
+        if (!cadastro.isFinalizado()) {
+            return;
+        }
+
+        Cargo cargo = null;
+        Departamento departamento = null;
+
+        if (cadastro.getCargo() != 0) {
+            try {
+                cargo = fachada.buscarCargo(cadastro.getCargo());
+            } catch (CargoNaoExisteException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
+        if (cadastro.getDepartamento() != 0) {
+            try {
+                departamento = fachada.buscarDepartamento(cadastro.getDepartamento());
+            } catch (DepartamentoNaoExisteException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
+        try {
+            fachada.editarFuncionario(cadastro.getId(), cadastro.getNome(), cargo, cadastro.getSalario(),
+                    departamento);
+        } catch (FuncionarioNaoExisteException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+    }
+
+    private void adicionaFuncionario() {
+        cadastro.iniciar();
+
+        if (!cadastro.isFinalizado()) {
+            return;
+        }
+
+        Cargo cargo = null;
+        Departamento departamento = null;
+
+        if (cadastro.getCargo() != 0) {
+            try {
+                cargo = fachada.buscarCargo(cadastro.getCargo());
+            } catch (CargoNaoExisteException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
+        if (cadastro.getDepartamento() != 0) {
+            try {
+                departamento = fachada.buscarDepartamento(cadastro.getDepartamento());
+            } catch (DepartamentoNaoExisteException e) {
+                System.out.println(e.getMessage());
+                return;
+            }
+        }
+
+        try {
+            fachada.adicionarFuncionario(cadastro.getId(), cadastro.getNome(), cargo, cadastro.getSalario(),
+                    departamento);
+        } catch (FuncionarioJaExisteException e) {
+            System.out.println(e.getMessage());
+            Funcionario funcionario = e.getFuncionario();
+            System.out.println(funcionario.getId() + " " + funcionario.getNome());
+            return;
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            return;
         }
     }
 
