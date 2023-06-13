@@ -7,3 +7,5 @@ O sistema tem o intuito de facilitar o gerenciamento dos recursos humanos (R.H.)
 ## Especificações
 
 [Documento de especificação da primeira entrega.](./especificacoes/POO_E1_Joao_Vinicius.pdf)
+
+[Documento de especificação da segunda entrega.](./especificacoes/POO_E2_Joao_Vinicius.pdf)
